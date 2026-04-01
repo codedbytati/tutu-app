@@ -5,8 +5,8 @@ export const NewTransaction = () => {
       <form className='flex flex-col gap-4'>
       <select className="form-select" aria-label="Selecione o tipo de transação">
         <option selected disabled>Selecione o tipo de transação</option>
-        <option value="1">Transferência</option>
-        <option value="2">Depósito</option>
+        <option value="1">Despesa</option>
+        <option value="2">Receita</option>
       </select>
 
       <div className="input-group mb-3">

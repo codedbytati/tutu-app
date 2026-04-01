@@ -13,7 +13,7 @@ export const Menu = ({className}: MenuProps) => {
       </div>
       <div className='flex items-center gap-2 rounded-lg p-3'>
         <ArrowLeftRightIcon size={20} />
-        <p className='text-black font-semibold m-0'>Transferência</p>
+        <p className='text-black font-semibold m-0'>Despesa</p>
       </div>
       <div className='flex items-center gap-2 rounded-lg p-3'>
         <ChartSplineIcon size={20} />
