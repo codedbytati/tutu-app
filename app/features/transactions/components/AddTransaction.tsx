@@ -1,11 +1,11 @@
 'use client'
 
 import { useState } from 'react';
-import { Button } from './ui/Button';
+import { Button } from '../../../components/ui/Button';
 import { Form } from 'react-bootstrap';
-import { Modal } from './ui/Modal';
+import { Modal } from '../../../components/ui/Modal';
 
-export const EditTransaction = () => {
+export const AddTransaction = () => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -13,16 +13,8 @@ export const EditTransaction = () => {
 
   return (
     <>
-      <Button icon='edit' variant='secondary' aria-label='Editar' onClick={handleShow} />
-      <Modal
-        open={show}
-        onClose={handleClose}
-        title="Editar transação"
-        primaryButtonLabel='Salvar'
-        onPrimaryButtonClick={handleClose}
-        secondaryButtonLabel='Cancelar'
-        onSecondaryButtonClick={handleClose}
-      >
+      <Button onClick={handleShow} type='button' variant='dark' icon='add' label='Adicionar' />
+      <Modal open={show} onClose={handleClose} title="Adicionar Transação" primaryButtonLabel='Salvar' onPrimaryButtonClick={handleClose}>
         <Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Label>Data da transação</Form.Label>

@@ -1,5 +1,5 @@
-import { EditTransaction } from '../../EditTransaction'
-import { DeleteTransaction } from '../../DeleteTransaction'
+import { EditTransaction } from '../../../features/transactions/components/EditTransaction'
+import { DeleteTransaction } from '../../../features/transactions/components/DeleteTransaction'
 import { formatDateWithWeekday } from '@/utils/date'
 
 type CardProps = {

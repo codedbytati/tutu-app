@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { AddTransaction } from '../AddTransaction'
+import { AddTransaction } from '../../features/transactions/components/AddTransaction'
 import { Card } from './components/Card'
 
 
