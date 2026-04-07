@@ -15,13 +15,11 @@ const styled = tv({
 })
 
 type CurrentBalanceProps = {
-  data: {
-    balance: string
-  },
+  balance: string,
   className: string
 }
 
-export const CurrentBalance = ({ data, className }: CurrentBalanceProps) => {
+export const CurrentBalance = ({ balance, className }: CurrentBalanceProps) => {
   const { date, weekday } = getTodayInfo()
   const [isHidden, setIsHidden] = useState(true)
 
@@ -31,7 +29,7 @@ export const CurrentBalance = ({ data, className }: CurrentBalanceProps) => {
       <p className="text-xs">Atualização: {`${weekday}, ${date}`}</p>
       <div className='flex items-center gap-3'>
         <p className={styled({ isHidden })}>
-          {`R$ ${data.balance}`}
+          {`R$ ${balance}`}
         </p>
         <button
           type='button'

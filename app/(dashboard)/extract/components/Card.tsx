@@ -10,10 +10,13 @@ type CardProps = {
     amount: string
     date: string
   },
+  mode: 'none' | 'add' | 'edit' | 'delete'
   onDelete: (id: number) => void
+  onClose: () => void
+  onOpenDelete: () => void
 }
 
-export const Card = ({ item, onDelete }: CardProps) => {
+export const Card = ({ mode, item, onDelete, onOpenDelete, onClose }: CardProps) => {
   return (
     <div className='flex items-start justify-between rounded-2xl py-3 px-4 bg-gray-100'>
       <div>
@@ -29,8 +32,8 @@ export const Card = ({ item, onDelete }: CardProps) => {
         </div>
       </div>
       <div className='flex gap-1'>
-        <EditTransaction />
-        <DeleteTransaction onDelete={() => onDelete(item.id)} />
+        <EditTransaction open={mode === 'edit'} onClose={onClose} />
+        <DeleteTransaction open={mode === 'delete'} onClose={onClose} onOpenDelete={onOpenDelete} onDelete={() => onDelete(item.id)} />
       </div>
     </div>
   )

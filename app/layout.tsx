@@ -10,8 +10,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "bytebank",
-  description: "Seu organizador financeiro pessoal",
+  title: "tutu app",
+  description: "todo dia te ajudando a ter mais controle sobre suas finanças",
 };
 
 export default function RootLayout({

@@ -1,27 +1,24 @@
-'use client'
-
-import { useState } from 'react';
 import { Button } from '../../../components/ui/Button';
 import { Form } from 'react-bootstrap';
 import { Modal } from '../../../components/ui/Modal';
 
-export const EditTransaction = () => {
-  const [show, setShow] = useState(false);
+type EditTransactionProps = {
+  open: boolean
+  onClose: () => void
+}
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
+export const EditTransaction = ({ open, onClose }: EditTransactionProps) => {
   return (
     <>
-      <Button icon='edit' variant='secondary' aria-label='Editar' onClick={handleShow} />
+      <Button icon='edit' variant='secondary' aria-label='Editar' onClick={onClose} />
       <Modal
-        open={show}
-        onClose={handleClose}
+        open={open}
+        onClose={onClose}
         title="Editar transação"
         primaryButtonLabel='Salvar'
-        onPrimaryButtonClick={handleClose}
+        onPrimaryButtonClick={onClose}
         secondaryButtonLabel='Cancelar'
-        onSecondaryButtonClick={handleClose}
+        onSecondaryButtonClick={onClose}
       >
         <Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
