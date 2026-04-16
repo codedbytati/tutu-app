@@ -5,11 +5,27 @@
   --foreground: #171717;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-primary: #ee9b00;
+  --color-secondary: #fff8c5;
+  --color-success: #4cd964;
+  --color-success-light: #cff3af;
+  --color-warning: #ffe100;
+  --color-danger: #ff4444;
+  --color-danger-light: #ffd9d9;
+  --color-info: #00adff;
+  --color-info-light: #c7e9f9;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-gray-900: #4b4b4b;
+  --color-gray-700: #6d6d6d;
+  --color-gray-300: #8a8a8f;
+  --color-gray-100: #e4e4e4;
 }
 
 @media (prefers-color-scheme: dark) {
