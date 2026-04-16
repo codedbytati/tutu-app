@@ -1,5 +1,4 @@
-import { Button } from '../../../components/ui/Button';
-import { Modal } from '../../../components/ui/Modal';
+import { IconButton, Modal } from '@/app/components/ui';
 
 type DeleteTransactionProps = {
   open: boolean
@@ -11,7 +10,7 @@ type DeleteTransactionProps = {
 export const DeleteTransaction = ({ open, onClose, onDelete, onOpenDelete }: DeleteTransactionProps) => {
   return (
     <>
-      <Button icon='delete' variant='danger' aria-label='Excluir' onClick={onOpenDelete} />
+      <IconButton icon='delete' appearance='light' label='Excluir' onClick={onOpenDelete} />
       <Modal
         open={open}
         onClose={onClose}

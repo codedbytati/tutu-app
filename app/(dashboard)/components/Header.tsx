@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { MenuIcon, XIcon } from 'lucide-react'
-import { Avatar } from '../../components/ui/Avatar'
+import { Avatar } from '../../components/ui'
 import { Menu } from '../components/Menu'
 
 type HeaderProps = {

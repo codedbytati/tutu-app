@@ -1,6 +1,7 @@
 import { EditTransaction } from '../../../features/transactions/components/EditTransaction'
 import { DeleteTransaction } from '../../../features/transactions/components/DeleteTransaction'
 import { formatDateWithWeekday } from '@/utils/date'
+import { useTransactions } from '@/app/features/transactions/hooks/useTransactions'
 
 type CardProps = {
   item: {
@@ -17,6 +18,8 @@ type CardProps = {
 }
 
 export const Card = ({ mode, item, onDelete, onOpenDelete, onClose }: CardProps) => {
+  const { onAddTransactionProps } = useTransactions()
+
   return (
     <div className='flex items-start justify-between rounded-2xl py-3 px-4 bg-gray-100'>
       <div>
@@ -32,8 +35,15 @@ export const Card = ({ mode, item, onDelete, onOpenDelete, onClose }: CardProps)
         </div>
       </div>
       <div className='flex gap-1'>
-        <EditTransaction open={mode === 'edit'} onClose={onClose} />
-        <DeleteTransaction open={mode === 'delete'} onClose={onClose} onOpenDelete={onOpenDelete} onDelete={() => onDelete(item.id)} />
+        <EditTransaction
+          {...onAddTransactionProps}
+        />
+        <DeleteTransaction
+          open={mode === 'delete'}
+          onClose={onClose}
+          onOpenDelete={onOpenDelete}
+          onDelete={() => onDelete(item.id)}
+        />
       </div>
     </div>
   )
