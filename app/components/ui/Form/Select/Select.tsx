@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react'
-import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
+import type { ChangeEvent, ReactNode } from 'react'
+import { useId } from 'react'
 import { ChevronsUpDownIcon } from 'lucide-react'
 
 type SelectProps<TOption> = {
@@ -24,45 +24,38 @@ export const Select = <TOption,>({
   getOptionKey,
   placeholder = 'Select an option',
   disabled = false,
-  renderOption,
-  renderValue,
 }: SelectProps<TOption>) => {
+  const fieldId = useId()
+  const selectedValue = value ? String(getOptionKey(value)) : ''
+
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const nextValue = event.target.value
+    const nextOption = options.find((option) => String(getOptionKey(option)) === nextValue)
+
+    if (nextOption) {
+      onChange(nextOption)
+    }
+  }
+
   return (
-    <Listbox value={value} onChange={onChange} disabled={disabled}>
-      {label ? <Label className="block text-sm/6 font-medium text-gray-900">{label}</Label> : null}
-      <div className="relative mt-2">
-        <ListboxButton className="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500 sm:text-sm/6">
-          <span className="col-start-1 row-start-1 flex items-center gap-3 pr-6">
-            {value
-              ? renderValue?.(value) ?? <span className="block truncate">{getOptionLabel(value)}</span>
-              : <span className="block truncate text-gray-400">{placeholder}</span>}
-          </span>
-          <ChevronsUpDownIcon
-            aria-hidden="true"
-            className="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4"
-          />
-        </ListboxButton>
-        <ListboxOptions
-          transition
-          className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg outline-1 outline-black/5 data-leave:transition data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0 sm:text-sm"
-        >
-          {options.map((option) => (
-            <ListboxOption
-              key={getOptionKey(option)}
-              value={option}
-              className="group relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none data-focus:bg-primary data-focus:text-white data-focus:outline-hidden"
-            >
-              {({ selected }) => (
-                <>
-                  <span className={selected ? 'block truncate font-semibold' : 'block truncate font-normal'}>
-                    {renderOption?.(option) ?? getOptionLabel(option)}
-                  </span>
-                </>
-              )}
-            </ListboxOption>
-          ))}
-        </ListboxOptions>
-      </div>
-    </Listbox>
+    <div className='flex flex-col gap-1 mt-2'>
+      <label htmlFor={fieldId} className="font-medium text-gray-900">{label}</label>
+      <select
+        id={fieldId}
+        value={selectedValue}
+        onChange={handleChange}
+        disabled={disabled}
+        className="rounded-md border border-gray-300 px-3 py-2 text-left text-gray-900 shadow-xs transition focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/25 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500 sm:text-sm/6"
+      >
+        <option value="" disabled>
+          {placeholder}
+        </option>
+        {options.map((option) => (
+          <option key={getOptionKey(option)} value={String(getOptionKey(option))}>
+            {getOptionLabel(option)}
+          </option>
+        ))}
+      </select>
+    </div>
   )
 }

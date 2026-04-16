@@ -28,8 +28,8 @@ export const TextField = ({
   const fieldId = id ?? 'textfield'
 
   return (
-    <div>
-      <label htmlFor={fieldId} className="block text-sm/6 font-medium text-gray-900">
+    <div className="flex flex-col gap-1 mt-2">
+      <label htmlFor={fieldId} className="font-medium text-gray-900">
         {label}
       </label>
       <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-primary">
