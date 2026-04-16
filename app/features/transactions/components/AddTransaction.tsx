@@ -1,9 +1,6 @@
-import { Button } from '../../../components/ui/Button';
-import { Form } from 'react-bootstrap';
-import { Modal } from '../../../components/ui/Modal';
+import { Button, Modal, Select, TextField } from '@/app/components/ui';
 import { NewTransactionInput } from '../hooks/useTransactions';
 import { Dispatch, SetStateAction } from 'react';
-
 
 type AddTransactionProps = {
   transaction: NewTransactionInput
@@ -15,11 +12,15 @@ type AddTransactionProps = {
 }
 
 export const AddTransaction = ({ open, transaction, setTransaction, onAdd, onClose, onOpen }: AddTransactionProps) => {
-
+  const transactionTypeOptions: Array<NewTransactionInput['type']> = ['EXPENSE', 'INCOME']
+  const transactionTypeLabel: Record<NewTransactionInput['type'], string> = {
+    EXPENSE: 'Despesa',
+    INCOME: 'Receita',
+  }
 
   return (
     <>
-      <Button onClick={onOpen} type='button' variant='dark' icon='add' label='Adicionar' />
+      <Button onClick={onOpen} type='button' appearance='light' icon='add' label='Adicionar' />
       <Modal
         title="Adicionar Transação"
         open={open}
@@ -28,46 +29,45 @@ export const AddTransaction = ({ open, transaction, setTransaction, onAdd, onClo
         secondaryButtonLabel='Cancelar'
         onPrimaryButtonClick={onAdd}
         onSecondaryButtonClick={onClose}>
-        <Form>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-            <Form.Label>Data da transação</Form.Label>
-            <Form.Control
-              type='date'
-              value={transaction.date}
-              onChange={(event) => setTransaction({ ...transaction, date: event.target.value })}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Tipo de transação</Form.Label>
-            <Form.Select
-              aria-label="Tipo de transação"
-              value={transaction.type}
-              onChange={(event) => setTransaction({ ...transaction, type: event.target.value as 'EXPENSE' | 'INCOME' })}
-            >
-              <option value='' disabled>Selecione um tipo</option>
-              <option value="EXPENSE">Despesa</option>
-              <option value="INCOME">Receita</option>
-            </Form.Select>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Descrição</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Digite a descrição"
-              value={transaction.description}
-              onChange={(event) => setTransaction({ ...transaction, description: event.target.value })}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-            <Form.Label>Valor</Form.Label>
-            <Form.Control
-              type='text'
-              placeholder="R$ 0,00"
-              value={transaction.amount}
-              onChange={(event) => setTransaction({ ...transaction, amount: event.target.value })}
-            />
-          </Form.Group>
-        </Form>
+        <TextField
+          label='Data da transação'
+          placeholder='Selecione a data'
+          type='date'
+          id='transaction-date'
+          name='transaction-date'
+          value={transaction.date}
+          onChange={(event) => setTransaction({ ...transaction, date: event.target.value })}
+        />
+
+        <Select
+          label='Tipo de transação'
+          options={transactionTypeOptions}
+          value={transaction.type}
+          getOptionLabel={(option) => transactionTypeLabel[option]}
+          getOptionKey={(option) => option}
+          onChange={(value) => setTransaction({ ...transaction, type: value })}
+        />
+
+        <TextField
+          label='Descrição'
+          placeholder='Digite a descrição'
+          type='text'
+          id='transaction-description'
+          name='transaction-description'
+          value={transaction.description}
+          onChange={(event) => setTransaction({ ...transaction, description: event.target.value })}
+        />
+
+        <TextField
+          label='Valor'
+          placeholder='0,00'
+          type='number'
+          id='transaction-amount'
+          name='transaction-amount'
+          min={0}
+          value={transaction.amount}
+          onChange={(event) => setTransaction({ ...transaction, amount: event.target.value })}
+        />
       </Modal>
     </>
   );
