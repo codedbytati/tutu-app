@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { MenuIcon, XIcon } from 'lucide-react'
-import { Avatar } from '../../components/ui'
 import { Menu } from '../components/Menu'
+import { Avatar, Text } from '@/app/components/ui'
 
 type HeaderProps = {
   name: string
@@ -14,7 +14,7 @@ export const Header = ({ name, className }: HeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   return (
-    <header className={`flex px-4 bg-white rounded-4xl ${className}`}>
+    <header className={`flex px-6 py-4 bg-white rounded-4xl ${className}`}>
       <div className='h-full flex items-center pr-4 sm:hidden'>
         <button
           type='button'
@@ -43,10 +43,10 @@ export const Header = ({ name, className }: HeaderProps) => {
         </div>
       )}
       <div className='flex items-center gap-3'>
-        <Avatar size='lg' photoToken='https://avatars.githubusercontent.com/u/56259137' title={name} />
+        <Avatar size='xl' photoToken='https://avatars.githubusercontent.com/u/56259137' title={name} />
         <div className='flex flex-col'>
-          <p className='text-sm m-0'>Boas vindas de volta!</p>
-          <p className='font-medium text-3xl m-0'>{name}</p>
+          <Text appearance='body1' className='text-gray-300'>Boas vindas de volta!</Text>
+          <Text appearance='h1'>{name}</Text>
         </div>
       </div>
     </header>

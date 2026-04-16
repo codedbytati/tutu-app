@@ -8,7 +8,7 @@ type AvatarProps = {
 }
 
 const styled = tv({
-  base: 'border-2 rounded-full overflow-hidden flex items-center justify-center',
+  base: 'rounded-full overflow-hidden flex items-center justify-center',
   variants: {
     size: {
       sm: 'size-8',

@@ -3,6 +3,7 @@
 import { useTransactionsContext } from '@/app/features/transactions/context/TransactionsContext'
 import { AddTransaction } from '../../features/transactions/components/AddTransaction'
 import { Card } from './components/Card'
+import { Text } from '@/app/components/ui'
 
 type ExtractProps = {
   className: string,
@@ -14,7 +15,7 @@ export const Extract = ({ className }: ExtractProps) => {
   return (
     <div className={`${className} flex flex-col gap-3 p-4 bg-white rounded-4xl`}>
       <div className='flex justify-between items-center'>
-        <h2 className='fs-4 m-0'>Extrato</h2>
+        <Text appearance='h2'>Extrato</Text>
         <AddTransaction {...onAddTransactionProps} />
       </div>
       {

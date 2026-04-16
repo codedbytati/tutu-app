@@ -1,28 +1,60 @@
+"use client"
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+import { Text } from '@/app/components/ui'
 import { ArrowLeftRightIcon, ChartSplineIcon, HomeIcon, SettingsIcon } from 'lucide-react'
 
 type MenuProps = {
   className: string
 }
 
-export const Menu = ({className}: MenuProps) => {
+const menuItems = [
+  {
+    href: '/',
+    label: 'Início',
+    Icon: HomeIcon
+  },
+  {
+    href: '/extratos',
+    label: 'Despesa',
+    Icon: ArrowLeftRightIcon
+  },
+  {
+    href: '/investimentos',
+    label: 'Investimento',
+    Icon: ChartSplineIcon
+  },
+  {
+    href: '/servicos',
+    label: 'Outros serviços',
+    Icon: SettingsIcon
+  }
+]
+
+export const Menu = ({ className }: MenuProps) => {
+  const pathname = usePathname()
+
   return (
-    <div className={`${className} flex flex-col gap-3 p-4 bg-white rounded-4xl`}>
-      <div className='flex items-center gap-2 bg-yellow-100 rounded-lg p-3'>
-        <HomeIcon size={20} />
-        <p className='text-black font-semibold m-0'>Início</p>
-      </div>
-      <div className='flex items-center gap-2 rounded-lg p-3'>
-        <ArrowLeftRightIcon size={20} />
-        <p className='text-black font-semibold m-0'>Despesa</p>
-      </div>
-      <div className='flex items-center gap-2 rounded-lg p-3'>
-        <ChartSplineIcon size={20} />
-        <p className='text-black font-semibold m-0'>Investimento</p>
-      </div>
-      <div className='flex items-center gap-2 rounded-lg px-2 py-3'>
-        <SettingsIcon size={20} />
-        <p className='text-black font-semibold m-0'>Outros serviços</p>
-      </div>
-    </div>
+    <nav className={`${className} flex flex-col gap-3 p-4 bg-white rounded-4xl`} aria-label='Navegação principal'>
+      {menuItems.map(({ href, label, Icon }) => {
+        const isActive = pathname === href
+
+        return (
+          <Link
+            key={href}
+            href={href}
+            aria-current={isActive ? 'page' : undefined}
+            className={`flex items-center gap-2 rounded-lg p-3 transition-colors cursor-pointer ${
+              isActive ? 'bg-primary' : 'hover:bg-secondary'
+            }`}
+          >
+            <Icon size={20} />
+            <Text appearance='body1' className='font-semibold'>{label}</Text>
+          </Link>
+        )
+      })}
+    </nav>
   )
 }
