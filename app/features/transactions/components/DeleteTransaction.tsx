@@ -10,7 +10,7 @@ type DeleteTransactionProps = {
 export const DeleteTransaction = ({ open, onClose, onDelete, onOpenDelete }: DeleteTransactionProps) => {
   return (
     <>
-      <IconButton icon='delete' appearance='light' label='Excluir' onClick={onOpenDelete} />
+      <IconButton icon='delete' appearance='danger' label='Excluir' onClick={onOpenDelete} />
       <Modal
         open={open}
         onClose={onClose}

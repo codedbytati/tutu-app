@@ -3,18 +3,19 @@ import { tv } from 'tailwind-variants'
 
 const styled = tv({
   base: ['flex items-center p-3 border-1 border-gray-700 rounded-full',
-    '[&_svg]:size-4 [&_svg]:text-gray-700 gap-2 cursor-pointer'
+    '[&_svg]:size-4 gap-2 cursor-pointer'
   ],
   variants: {
     appearance: {
-      light: 'bg-white text-black',
-      dark: 'bg-black text-white',
+      light: 'bg-white [&_svg]:text-black',
+      dark: 'bg-black [&_svg]:text-white',
+      danger: 'bg-danger [&_svg]:text-black border-none',
     },
   }
 })
 
 type IconButtonProps = {
-  appearance?: 'light' | 'dark',
+  appearance?: 'light' | 'dark' | 'danger',
   icon?: IconType,
   label: string,
   onClick?: () => void
