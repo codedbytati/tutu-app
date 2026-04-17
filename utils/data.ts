@@ -1,34 +1,41 @@
-type dataProps = {
-  id: number,
-  name: string,
-  balance: string,
-  extract: {
-    id: number,
-    description: string,
-    type: 'EXPENSE' | 'INCOME',
-    amount: string,
-    date: string
-  }[]
-}
+import { FinanceModel } from "./types";
 
-export const data: dataProps = {
+export const data: FinanceModel = {
   id: 1,
-  name: 'Ana Marcela',
-  balance: '2500',
+  name: "Ana Marcela",
+  totalBalance: "2500",
   extract: [
     {
       id: 1,
-      description: 'Mercado',
-      type: 'EXPENSE',
-      amount: '36.50',
-      date: '04/09/2025'
+      category: "Alimentação",
+      type: "EXPENSE",
+      description: "Mercado",
+      amount: "36.50",
+      date: "14/04/2026",
     },
     {
       id: 2,
-      description: 'Salário do mês de setembro do segundo trabalho',
-      type: 'INCOME',
-      amount: '120',
-      date: '04/10/2025'
-    }
-  ]
-}
+      category: "Salário",
+      description: "Salário de abril",
+      type: "INCOME",
+      amount: "120",
+      date: "01/04/2026",
+    },
+    {
+      id: 3,
+      category: "Casa",
+      description: "Aluguel",
+      type: "EXPENSE",
+      amount: "1000",
+      date: "10/04/2026",
+    },
+    {
+      id: 4,
+      category: "Casa",
+      description: "Conta de luz",
+      type: "EXPENSE",
+      amount: "200",
+      date: "10/04/2026",
+    },
+  ],
+};
