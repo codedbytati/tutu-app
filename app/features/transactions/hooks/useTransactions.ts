@@ -15,6 +15,12 @@ const amountConverter = (value: string) => {
   return Number(value.replace(",", ".").replace(/[^\d.-]/g, "")) || 0;
 };
 
+const toSignedAmount = (type: NewTransactionInput["type"], amount: string) => {
+  const parsedAmount = amountConverter(amount);
+
+  return type === "INCOME" ? parsedAmount : -parsedAmount;
+};
+
 export const useTransactions = () => {
   const [mode, setMode] = useState<"none" | "add" | "edit" | "delete">("none");
   const [extracts, setExtracts] = useState(data.extract);
@@ -65,6 +71,58 @@ export const useTransactions = () => {
     });
   };
 
+  const formatDate = (rawDate: string) => {
+    const [year, month, day] = rawDate.split("-");
+
+    if (!year || !month || !day) {
+      return rawDate;
+    }
+
+    return `${day}/${month}/${year}`;
+  };
+
+  const handleEditTransaction = (transaction: NewTransactionInput) => {
+    const normalizedTransaction = {
+      ...transaction,
+      description: transaction.description.trim(),
+      amount: transaction.amount.trim(),
+      date: formatDate(transaction.date),
+    };
+
+    const nextSignedAmount = toSignedAmount(normalizedTransaction.type, normalizedTransaction.amount);
+
+    setExtracts((current) => {
+      const previousTransaction = current.find((item) => item.id === normalizedTransaction.id);
+
+      if (!previousTransaction) {
+        return current;
+      }
+
+      const previousSignedAmount = toSignedAmount(previousTransaction.type, previousTransaction.amount);
+
+      setBalance((currentBalance) => {
+        const currentAmount = amountConverter(currentBalance);
+        const updatedBalance = currentAmount - previousSignedAmount + nextSignedAmount;
+
+        return updatedBalance.toFixed(2);
+      });
+
+      return current.map((item) => {
+        if (item.id !== normalizedTransaction.id) {
+          return item;
+        }
+
+        return {
+          ...item,
+          ...normalizedTransaction,
+          amount: amountConverter(normalizedTransaction.amount).toFixed(2),
+        };
+      });
+    });
+
+    handleClose();
+  };
+
   const [transaction, setTransaction] = useState<NewTransactionInput>({
     id: 0,
     description: "",
@@ -86,16 +144,6 @@ export const useTransactions = () => {
   const handleClose = () => {
     setMode("none");
     resetForm();
-  };
-
-  const formatDate = (rawDate: string) => {
-    const [year, month, day] = rawDate.split("-");
-
-    if (!year || !month || !day) {
-      return rawDate;
-    }
-
-    return `${day}/${month}/${year}`;
   };
 
   const handleSave = () => {
@@ -120,6 +168,8 @@ export const useTransactions = () => {
   };
 
   return {
+    onOpenEdit: () => setMode("edit"),
+    onOpenDelete: () => setMode("delete"),
     onAddTransactionProps: {
       transaction,
       setTransaction,
@@ -131,8 +181,8 @@ export const useTransactions = () => {
     mode,
     extracts,
     balance: balance,
-    onOpenDelete: () => setMode("delete"),
     onDelete: handleDeleteTransaction,
+    onEdit: handleEditTransaction,
     onAdd: handleSave,
     onClose: handleClose,
   };

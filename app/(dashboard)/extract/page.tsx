@@ -10,7 +10,7 @@ type ExtractProps = {
 }
 
 export const Extract = ({ className }: ExtractProps) => {
-  const { mode, extracts, onDelete, onOpenDelete, onClose, onAddTransactionProps } = useTransactionsContext()
+  const { extracts, onDelete, onEdit, onAddTransactionProps } = useTransactionsContext()
 
   return (
     <div className={className}>
@@ -23,7 +23,7 @@ export const Extract = ({ className }: ExtractProps) => {
         <Text appearance='body1' className='text-gray-500'>Hoje</Text>
         {
           extracts.map((item) => (
-            <Card key={item.id} item={item} onDelete={onDelete} mode={mode} onClose={onClose} onOpenDelete={onOpenDelete} />
+            <Card key={item.id} item={item} onDelete={onDelete} onEdit={onEdit} />
           ))
         }
       </div>

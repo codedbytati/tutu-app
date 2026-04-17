@@ -1,4 +1,4 @@
-import { IconButton, Modal, Select, TextField } from '@/app/components/ui';
+import { Modal, Select, TextField } from '@/app/components/ui';
 import { NewTransactionInput } from '../hooks/useTransactions';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -7,19 +7,16 @@ type AddTransactionProps = {
   setTransaction: Dispatch<SetStateAction<NewTransactionInput>>
   open: boolean
   onAdd: () => void
-  onOpen: () => void
   onClose: () => void
 }
 
-export const EditTransaction = ({ open, transaction, setTransaction, onAdd, onClose, onOpen }: AddTransactionProps) => {
+export const EditTransaction = ({ open, transaction, setTransaction, onAdd, onClose }: AddTransactionProps) => {
   const transactionTypeOptions: Array<NewTransactionInput['type']> = ['EXPENSE', 'INCOME']
   const transactionTypeLabel: Record<NewTransactionInput['type'], string> = {
     EXPENSE: 'Despesa',
     INCOME: 'Receita',
   }
   return (
-    <>
-      <IconButton icon='edit' appearance='light' label='Editar' onClick={onOpen} />
       <Modal
         open={open}
         onClose={onClose}
@@ -69,6 +66,5 @@ export const EditTransaction = ({ open, transaction, setTransaction, onAdd, onCl
           onChange={(event) => setTransaction({ ...transaction, amount: event.target.value })}
         />
       </Modal>
-    </>
-  );
+  )
 }

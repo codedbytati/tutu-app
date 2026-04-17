@@ -1,9 +1,9 @@
-// import { EditTransaction } from '../../../features/transactions/components/EditTransaction'
-// import { DeleteTransaction } from '../../../features/transactions/components/DeleteTransaction'
-// import { formatDateWithWeekday } from '@/utils/date'
-// import { useTransactions } from '@/app/features/transactions/hooks/useTransactions'
-import { IconButton, Text } from '@/app/components/ui'
+import { EditTransaction } from '../../../features/transactions/components/EditTransaction'
+import { DeleteTransaction } from '../../../features/transactions/components/DeleteTransaction'
+import { type NewTransactionInput } from '@/app/features/transactions/hooks/useTransactions'
+import { Dropdown, DropdownItem, Text } from '@/app/components/ui'
 import { CarTaxiFrontIcon, MoreVerticalIcon } from 'lucide-react'
+import { useState } from 'react'
 
 type CardProps = {
   item: {
@@ -13,14 +13,51 @@ type CardProps = {
     amount: string
     date: string
   },
-  mode: 'none' | 'add' | 'edit' | 'delete'
+  onEdit: (transaction: NewTransactionInput) => void
   onDelete: (id: number) => void
-  onClose: () => void
-  onOpenDelete: () => void
 }
 
-export const Card = ({ item }: CardProps) => {
-  // const { onAddTransactionProps } = useTransactions()
+const toInputDate = (date: string) => {
+  const [day, month, year] = date.split('/')
+
+  if (!day || !month || !year) {
+    return date
+  }
+
+  return `${year}-${month}-${day}`
+}
+
+export const Card = ({ item, onEdit, onDelete }: CardProps) => {
+  const [isEditOpen, setIsEditOpen] = useState(false)
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+  const [transaction, setTransaction] = useState<NewTransactionInput>({
+    id: item.id,
+    description: item.description,
+    type: item.type,
+    amount: item.amount,
+    date: toInputDate(item.date),
+  })
+
+  const handleOpenEdit = () => {
+    setTransaction({
+      id: item.id,
+      description: item.description,
+      type: item.type,
+      amount: item.amount,
+      date: toInputDate(item.date),
+    })
+    setIsEditOpen(true)
+  }
+
+  const handleSaveEdit = () => {
+    onEdit({ ...transaction, id: item.id })
+    setIsEditOpen(false)
+  }
+
+  const handleDelete = () => {
+    onDelete(item.id)
+    setIsDeleteOpen(false)
+  }
 
   return (
     <div className='flex items-center gap-3'>
@@ -37,19 +74,27 @@ export const Card = ({ item }: CardProps) => {
         {`R$${item.amount}`}
       </Text>
       <div className='flex justify-end'>
-        <IconButton label='Mais ações' icon='more' />
+        <Dropdown label={<MoreVerticalIcon size={20} />}>
+          <DropdownItem onClick={handleOpenEdit}>
+            <Text appearance='body1'>Editar transação</Text>
+          </DropdownItem>
+          <DropdownItem onClick={() => setIsDeleteOpen(true)}>
+            <Text appearance='body1'>Excluir transação</Text>
+          </DropdownItem>
+        </Dropdown>
       </div>
-      {/* <div className='flex gap-1'>
-        <EditTransaction
-          {...onAddTransactionProps}
-        />
-        <DeleteTransaction
-          open={mode === 'delete'}
-          onClose={onClose}
-          onOpenDelete={onOpenDelete}
-          onDelete={() => onDelete(item.id)}
-        />
-      </div> */}
+      <EditTransaction
+        transaction={transaction}
+        setTransaction={setTransaction}
+        open={isEditOpen}
+        onAdd={handleSaveEdit}
+        onClose={() => setIsEditOpen(false)}
+      />
+      <DeleteTransaction
+        open={isDeleteOpen}
+        onClose={() => setIsDeleteOpen(false)}
+        onDelete={handleDelete}
+      />
     </div>
   )
 }
