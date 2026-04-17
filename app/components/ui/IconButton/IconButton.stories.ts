@@ -16,7 +16,7 @@ const meta = {
       },
     },
   },
-  tags: ['autodocs'],
+  tags: ['autodocs', 'test'],
   argTypes: {
     label: {
       control: 'text',

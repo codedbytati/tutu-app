@@ -1,6 +1,5 @@
-import type { ChangeEvent, ReactNode } from 'react'
+import type { ChangeEvent } from 'react'
 import { useId } from 'react'
-import { ChevronsUpDownIcon } from 'lucide-react'
 
 type SelectProps<TOption> = {
   label: string
@@ -11,8 +10,6 @@ type SelectProps<TOption> = {
   getOptionKey: (option: TOption) => string | number
   placeholder?: string
   disabled?: boolean
-  renderOption?: (option: TOption) => ReactNode
-  renderValue?: (option: TOption | undefined) => ReactNode
 }
 
 export const Select = <TOption,>({

@@ -13,7 +13,7 @@ const meta = {
       },
     },
   },
-  tags: ['autodocs'],
+  tags: ['autodocs', 'test'],
   argTypes: {
     photoToken: {
       control: 'text',
