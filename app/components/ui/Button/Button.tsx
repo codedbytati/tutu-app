@@ -2,7 +2,7 @@ import { getIcon, IconType } from '@/utils/getIcon'
 import { tv } from 'tailwind-variants'
 
 const styled = tv({
-  base: 'flex items-center py-2 px-3 font-medium  border-1 border-gray-700 rounded-4xl cursor-pointer',
+  base: 'flex items-center py-2 px-6 font-medium  border-1 border-gray-700 rounded-4xl cursor-pointer',
   variants: {
     appearance: {
       light: 'bg-white text-black',

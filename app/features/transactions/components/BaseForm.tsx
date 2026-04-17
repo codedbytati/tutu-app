@@ -75,7 +75,7 @@ export const BaseForm = ({ transaction, setTransaction }: BaseFormProps) => {
       />
       <TextField
         label='Valor'
-        placeholder='0,00'
+        placeholder='R$ 0,00'
         type='number'
         id='transaction-amount'
         name='transaction-amount'

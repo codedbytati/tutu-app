@@ -2,6 +2,7 @@ import { Dropdown, DropdownItem, Text } from '@/app/components/ui'
 import { MoreVerticalIcon } from 'lucide-react'
 import { ExtractItem } from '@/utils/types'
 import { getCategoryIcon } from '@/utils/getIcon'
+import { formatMoneyForDisplay } from '@/utils/money'
 
 type CardProps = {
   item: ExtractItem,
@@ -22,7 +23,7 @@ export const Card = ({ item, onOpenEdit, onOpenDelete }: CardProps) => {
         appearance='body1'
         className={`m-0 shrink-0 text-end font-medium ${item.type === 'EXPENSE' ? 'text-red-500' : 'text-green-500'}`}
       >
-        {`R$${item.amount}`}
+        {formatMoneyForDisplay(item.amount)}
       </Text>
       <div className='flex justify-end'>
         <Dropdown label={<MoreVerticalIcon size={20} />}>

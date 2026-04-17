@@ -5,10 +5,10 @@ import { Menu } from './components/Menu';
 import { CurrentBalance } from './components/CurrentBalance';
 import { data } from '@/utils/data';
 import { TransactionsProvider } from '../features/transactions/context/TransactionsContext';
-import { useTransactions } from '../features/transactions/hooks/useTransactions';
+import { useTransactionsContext } from '../features/transactions/context/TransactionsContext';
 
 function DashboardLayoutContent({ children }: Readonly<{ children: React.ReactNode }>) {
-  const { balance } = useTransactions()
+  const { balance } = useTransactionsContext()
 
   return (
     <div className="min-h-screen max-h-screen p-4 sm:grid sm:grid-cols-4 grid-rows-7 sm:gap-4 sm:p-6 lg:grid-cols-5 lg:p-10">

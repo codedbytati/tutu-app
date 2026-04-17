@@ -6,6 +6,7 @@ import { IconButton, Text } from '@/app/components/ui'
 import { AddTransaction } from '@/app/features/transactions/components/AddTransaction'
 import { EditTransaction } from '@/app/features/transactions/components/EditTransaction'
 import { DeleteTransaction } from '@/app/features/transactions/components/DeleteTransaction'
+import { groupTransactionsByDate } from '@/utils/groupByDate'
 
 type ExtractProps = {
   className: string,
@@ -21,6 +22,8 @@ export const Extract = ({ className }: ExtractProps) => {
     onDeleteTransactionProps,
   } = useTransactionsContext()
 
+  const groupedExtracts = groupTransactionsByDate(extracts)
+
   return (
     <div className={className}>
       <AddTransaction {...onAddTransactionProps} />
@@ -29,10 +32,16 @@ export const Extract = ({ className }: ExtractProps) => {
           <Text appearance='h2'>Extrato</Text>
           <IconButton icon='expand' label='Expandir seção de Extratos' />
         </div>
-        <Text appearance='body1' className='text-gray-500'>Hoje</Text>
         {
-          extracts.map((item) => (
-            <Card key={item.id} item={item} onOpenEdit={onOpenEdit} onOpenDelete={onOpenDelete} />
+          groupedExtracts.map((group) => (
+            <div key={group.date} className='flex flex-col gap-3'>
+              <Text appearance='body2' className='text-gray-500'>{group.label}</Text>
+              {
+                group.items.map((item) => (
+                  <Card key={item.id} item={item} onOpenEdit={onOpenEdit} onOpenDelete={onOpenDelete} />
+                ))
+              }
+            </div>
           ))
         }
       </div>

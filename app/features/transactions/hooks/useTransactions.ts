@@ -4,12 +4,10 @@ import { useState } from "react";
 import { data } from "@/utils/data";
 import { ExtractItem } from '@/utils/types';
 
-const amountConverter = (value: string) => {
-  return Number(value.replace(",", ".").replace(/[^\d.-]/g, "")) || 0;
-};
+import { parseMoneyToNumber, formatMoneyForStorage } from "@/utils/money";
 
 const toSignedAmount = (type: ExtractItem["type"], amount: string) => {
-  const parsedAmount = amountConverter(amount);
+  const parsedAmount = parseMoneyToNumber(amount);
 
   return type === "INCOME" ? parsedAmount : -parsedAmount;
 };
@@ -31,26 +29,28 @@ export const useTransactions = () => {
   const [selectedTransactionId, setSelectedTransactionId] = useState<number | null>(null);
 
   const handleDeleteTransaction = (id: number) => {
-    setExtracts((current) => {
-      const deletedItem = current.find((item) => item.id === id);
-      if (deletedItem) {
-        const parsed = amountConverter(deletedItem.amount);
-        setBalance((current) => {
-          const currentAmount = amountConverter(current);
-          const updatedBalance =
-            deletedItem.type === "INCOME"
-              ? currentAmount - parsed
-              : currentAmount + parsed;
+    const deletedItem = extracts.find((item) => item.id === id);
 
-          return updatedBalance.toFixed(2);
-        });
-      }
-      return current.filter((item) => item.id !== id);
+    if (!deletedItem) {
+      return;
+    }
+
+    const parsed = parseMoneyToNumber(deletedItem.amount);
+
+    setExtracts((current) => current.filter((item) => item.id !== id));
+    setBalance((current) => {
+      const currentAmount = parseMoneyToNumber(current);
+      const updatedBalance =
+        deletedItem.type === "INCOME"
+          ? currentAmount - parsed
+          : currentAmount + parsed;
+
+      return formatMoneyForStorage(updatedBalance);
     });
   };
 
   const handleAddTransaction = (transaction: ExtractItem) => {
-    const amount = amountConverter(transaction.amount);
+    const amount = parseMoneyToNumber(transaction.amount);
 
     setExtracts((current) => {
       const nextId =
@@ -65,13 +65,13 @@ export const useTransactions = () => {
     });
 
     setBalance((current) => {
-      const currentAmount = amountConverter(current);
+      const currentAmount = parseMoneyToNumber(current);
       const updatedBalance =
         transaction.type === "INCOME"
           ? currentAmount + amount
           : currentAmount - amount;
 
-      return updatedBalance.toFixed(2);
+      return formatMoneyForStorage(updatedBalance);
     });
   };
 
@@ -93,24 +93,16 @@ export const useTransactions = () => {
       date: formatDate(transaction.date),
     };
 
+    const previousTransaction = extracts.find((item) => item.id === normalizedTransaction.id);
+
+    if (!previousTransaction) {
+      return;
+    }
+
     const nextSignedAmount = toSignedAmount(normalizedTransaction.type, normalizedTransaction.amount);
+    const previousSignedAmount = toSignedAmount(previousTransaction.type, previousTransaction.amount);
 
     setExtracts((current) => {
-      const previousTransaction = current.find((item) => item.id === normalizedTransaction.id);
-
-      if (!previousTransaction) {
-        return current;
-      }
-
-      const previousSignedAmount = toSignedAmount(previousTransaction.type, previousTransaction.amount);
-
-      setBalance((currentBalance) => {
-        const currentAmount = amountConverter(currentBalance);
-        const updatedBalance = currentAmount - previousSignedAmount + nextSignedAmount;
-
-        return updatedBalance.toFixed(2);
-      });
-
       return current.map((item) => {
         if (item.id !== normalizedTransaction.id) {
           return item;
@@ -119,9 +111,16 @@ export const useTransactions = () => {
         return {
           ...item,
           ...normalizedTransaction,
-          amount: amountConverter(normalizedTransaction.amount).toFixed(2),
+          amount: formatMoneyForStorage(normalizedTransaction.amount),
         };
       });
+    });
+
+    setBalance((currentBalance) => {
+      const currentAmount = parseMoneyToNumber(currentBalance);
+      const updatedBalance = currentAmount - previousSignedAmount + nextSignedAmount;
+
+      return formatMoneyForStorage(updatedBalance);
     });
   };
 
