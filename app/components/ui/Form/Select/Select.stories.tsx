@@ -83,28 +83,3 @@ export const Disabled: Story = {
     disabled: true,
   },
 };
-
-export const PlaceholderState: Story = {
-  render: (args) => {
-    const PlaceholderDemo = () => {
-      const [selected, setSelected] = useState<TransactionTypeOption | undefined>(undefined);
-
-      return (
-        <div className="w-80">
-          <Select
-            label={args.label}
-            options={options}
-            value={selected}
-            onChange={setSelected}
-            getOptionLabel={(option) => option.label}
-            getOptionKey={(option) => option.value}
-            placeholder={args.placeholder}
-            disabled={args.disabled}
-          />
-        </div>
-      );
-    };
-
-    return <PlaceholderDemo />;
-  },
-};

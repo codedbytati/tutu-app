@@ -24,7 +24,7 @@ const meta = {
     },
     appearance: {
       control: 'inline-radio',
-      options: ['light', 'dark'],
+      options: ['light', 'dark', 'danger'],
       description: 'Visual style variant.',
       table: {
         defaultValue: { summary: 'light' },
@@ -69,7 +69,7 @@ export const Dark: Story = {
 
 export const DeleteAction: Story = {
   args: {
-    appearance: 'light',
+    appearance: 'danger',
     icon: 'delete',
     label: 'Delete transaction',
   },
