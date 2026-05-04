@@ -36,7 +36,7 @@ export const CurrentBalance = ({ balance, className }: CurrentBalanceProps) => {
           className='border-0 bg-transparent p-0 leading-none'
           aria-label={isHidden ? 'Mostrar saldo' : 'Ocultar saldo'}
         >
-          {isHidden ? <EyeClosedIcon size={20} /> : <EyeIcon size={20} />}
+          {isHidden ? <EyeClosedIcon size={20} className='cursor-pointer' /> : <EyeIcon size={20} className='cursor-pointer' />}
         </button>
       </div>
     </div>
