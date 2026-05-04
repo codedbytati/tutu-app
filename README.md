@@ -13,7 +13,7 @@ Atualmente, a aplicação usa dados mockados locais em utils/data.ts e estado em
 	- Adicionar receita: soma ao saldo
 	- Excluir despesa: devolve o valor ao saldo
 	- Excluir receita: subtrai do saldo
-- Agrupamento de transações por rótulos de data (Hoje, Ontem, dia da semana ou data formatada)
+- Agrupamento de transações por rótulos de data
 - Padronização de parsing/formatação de valores monetários por helpers utilitários
 - Biblioteca de componentes de UI com stories no Storybook
 
@@ -25,7 +25,8 @@ Atualmente, a aplicação usa dados mockados locais em utils/data.ts e estado em
 - Tailwind CSS 4
 - Headless UI
 - Lucide React
-- Storybook 10
+- Storybook 10 (@storybook/nextjs-vite)
+- Vitest 4 (testes e integração com Storybook)
 
 ## Estrutura do projeto
 
@@ -38,7 +39,17 @@ app/
 			page.tsx               # Extract composition component used by dashboard page
 		layout.tsx               # Dashboard layout + TransactionsProvider
 		page.tsx                 # Dashboard route entry
-	components/ui/             # Reusable UI primitives (Button, Modal, Dropdown, etc.)
+	components/ui/             # Reusable UI primitives
+		Avatar/                   # Avatar component with stories
+		Button/                   # Button component with stories
+		Dropdown/                 # Dropdown component with stories
+		Form/                     # Form-related components
+			Select/                 # Select component with stories
+			TextField/              # TextField component with stories
+		IconButton/               # IconButton component with stories
+		Modal/                    # Modal component with stories
+		Text/                     # Text component with stories
+		index.ts                  # Component exports
 	features/transactions/
 		components/              # Feature components (Add/Edit/Delete/BaseForm)
 		context/                 # Transactions context provider
@@ -79,40 +90,25 @@ Abra http://localhost:3000.
 
 ## Storybook e testes de stories
 
-As stories são descobertas a partir de:
+O projeto utiliza Storybook com integração Vite (@storybook/nextjs-vite) para documentação e testes de componentes. As stories são descobertas a partir de:
 
-- ../stories/**/*.mdx
-- ../app/**/*.stories.@(js|jsx|mjs|ts|tsx)
+- `../stories/**/*.mdx`
+- `../app/**/*.stories.@(js|jsx|mjs|ts|tsx)`
 
-Para iniciar a interface do Storybook:
+### Executar Storybook
 
 ```bash
 npm run storybook
 ```
 
-Para rodar os testes do Storybook via projeto Vitest:
+Abre a interface do Storybook na porta 6006.
+
+### Testes de stories com Vitest
+
+O projeto usa Vitest com o addon @storybook/addon-vitest para executar testes de stories:
 
 ```bash
 npx vitest --project=storybook
 ```
 
-Observação: o addon Vitest do Storybook, por padrão, executa stories marcadas com a tag test.
-
-## Observações de domínio e dados
-
-- totalBalance em utils/data.ts é o saldo inicial exibido ao carregar a aplicação.
-- Os valores de transação são armazenados como string e normalizados para o formato 0.00 nos cálculos internos.
-- A formatação de exibição usa convenções monetárias pt-BR por meio de utils/money.ts.
-
-## Limitações atuais
-
-- Ainda não há persistência em backend (o estado reinicia ao atualizar a página)
-- Alguns links de navegação podem ser placeholders, dependendo das rotas implementadas
-- Algumas páginas/componentes são scoped da feature e pensadas para uso local no dashboard
-
-## Próximos passos (sugestão)
-
-- Persistir transações e saldo em API/banco de dados
-- Adicionar testes unitários para money.ts e groupByDate.ts
-- Adicionar testes de integração para os fluxos de adicionar/editar/excluir transações
-- Continuar extraindo lógica de domínio dos componentes de UI para melhorar a separação de responsabilidades
+**Nota**: O addon Vitest do Storybook executa por padrão stories marcadas com a tag `test`. Use `npx vitest run --project=storybook` para rodar uma única vez sem modo watch.
