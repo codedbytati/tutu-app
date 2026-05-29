@@ -1,7 +1,7 @@
-import { AppleIcon, ArrowUpRightIcon, BanknoteArrowUpIcon, CarTaxiFrontIcon, GemIcon, GiftIcon, HouseHeartIcon, MoreVerticalIcon, PencilIcon, PlusIcon, ScrollTextIcon, Trash2Icon, VolleyballIcon } from 'lucide-react'
+import { AppleIcon, ArrowUpRightIcon, BanknoteArrowUpIcon, CarTaxiFrontIcon, GemIcon, GiftIcon, HouseHeartIcon, MoreVerticalIcon, PencilIcon, PlusIcon, ScrollTextIcon, Search, Trash2Icon, VolleyballIcon, XIcon } from 'lucide-react'
 import { TransactionCategory } from './types'
 
-export type IconType = 'add' | 'edit' | 'delete' | 'expand' | 'more'
+export type IconType = 'add' | 'edit' | 'delete' | 'expand' | 'more' | 'search' | 'close'
 
 export const getIcon = (icon?: IconType) => {
   const iconOptions: { [key in IconType]: React.ReactNode } = {
@@ -9,7 +9,9 @@ export const getIcon = (icon?: IconType) => {
     edit: <PencilIcon />,
     delete: <Trash2Icon />,
     expand: <ArrowUpRightIcon />,
-    more: <MoreVerticalIcon />
+    more: <MoreVerticalIcon />,
+    search: <Search />,
+    close: <XIcon />
   }
 
   return icon ? iconOptions[icon] : null

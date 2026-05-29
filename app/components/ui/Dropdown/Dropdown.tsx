@@ -1,9 +1,10 @@
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import type { ReactNode } from 'react'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 
 type DropdownProps = {
   children: ReactNode
   label?: ReactNode
+  ariaLabel?: string
 }
 
 type DropdownItemProps = {
@@ -11,10 +12,16 @@ type DropdownItemProps = {
   onClick?: () => void
 }
 
-const Dropdown = ({ children, label }: DropdownProps) => {
+const Dropdown = ({ children, label, ariaLabel }: DropdownProps) => {
+  const accessibleLabel = ariaLabel ?? (typeof label === 'string' ? label : undefined)
+
   return (
     <Menu>
-      <MenuButton className='cursor-pointer rounded-full p-2 transition-colors hover:bg-secondary focus-visible:bg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25'>
+      <MenuButton
+        type='button'
+        aria-label={accessibleLabel}
+        className='cursor-pointer rounded-full p-2 transition-colors hover:bg-secondary focus-visible:bg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25'
+      >
         {label}
       </MenuButton>
       <MenuItems anchor="bottom" className="mt-2 flex min-w-44 flex-col gap-1 rounded-lg border border-gray-200 bg-white p-2 shadow-2xl focus:outline-none">

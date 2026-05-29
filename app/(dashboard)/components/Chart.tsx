@@ -71,7 +71,7 @@ export const Chart = () => {
       zoom: { enabled: false },
       fontFamily: 'inherit',
     },
-    colors: ['#16a34a', '#ef4444'],
+    colors: ['#497d00', '#e7000b'],
     stroke: {
       curve: 'smooth',
       width: 3,
@@ -130,11 +130,11 @@ export const Chart = () => {
 
   const series = [
     {
-      name: 'Entradas',
+      name: 'Receitas',
       data: incomeSeries,
     },
     {
-      name: 'Saídas',
+      name: 'Despesas',
       data: expenseSeries,
     },
   ]

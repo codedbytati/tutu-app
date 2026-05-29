@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import { getIcon, IconType } from '@/utils/getIcon'
 import { tv } from 'tailwind-variants'
 
@@ -18,6 +20,7 @@ type IconButtonProps = {
   appearance?: 'light' | 'dark' | 'danger',
   icon?: IconType,
   label: string,
+  href?: string,
   onClick?: () => void
 }
 
@@ -25,8 +28,22 @@ export const IconButton = ({
   appearance = 'light',
   icon,
   label,
+  href,
   onClick
 }: IconButtonProps) => {
+  const sharedProps = {
+    'aria-label': label,
+    className: styled({ appearance }),
+  }
+
+  if (href) {
+    return (
+      <Link href={href} {...sharedProps}>
+        {getIcon(icon)}
+      </Link>
+    )
+  }
+
   return (
     <button
       type='button'

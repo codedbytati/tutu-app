@@ -3,6 +3,17 @@ import { MoreVerticalIcon } from 'lucide-react'
 import { ExtractItem } from '@/utils/types'
 import { getCategoryIcon } from '@/utils/getIcon'
 import { formatMoneyForDisplay } from '@/utils/money'
+import { tv } from 'tailwind-variants'
+
+const makeValueStyle = tv({
+  base: 'm-0 shrink-0 text-end font-medium',
+  variants: {
+    type: {
+      EXPENSE: 'text-red-600',
+      INCOME: 'text-lime-700'
+    }
+  }
+})
 
 type CardProps = {
   item: ExtractItem,
@@ -21,12 +32,12 @@ export const Card = ({ item, onOpenEdit, onOpenDelete }: CardProps) => {
       </Text>
       <Text
         appearance='body1'
-        className={`m-0 shrink-0 text-end font-medium ${item.type === 'EXPENSE' ? 'text-red-500' : 'text-green-500'}`}
+        className={makeValueStyle({ type: item.type })}
       >
         {formatMoneyForDisplay(item.amount)}
       </Text>
       <div className='flex justify-end'>
-        <Dropdown label={<MoreVerticalIcon size={20} />}>
+        <Dropdown ariaLabel='Mais ações da transação' label={<MoreVerticalIcon size={20} />}>
           <DropdownItem onClick={() => onOpenEdit(item)}>
             <Text appearance='body1'>Editar transação</Text>
           </DropdownItem>

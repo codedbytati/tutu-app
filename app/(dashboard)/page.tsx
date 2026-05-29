@@ -3,10 +3,11 @@
 import { AddTransaction } from '@/app/features/transactions/components/AddTransaction';
 import { useTransactionsContext } from '@/app/features/transactions/context/TransactionsContext';
 import { Chart } from './components/Chart';
-import { Extract } from './extract/page';
+import { ShortExtract } from './components/ShortExtract';
 
 export default function DashboardPage() {
-  const { onAddTransactionProps } = useTransactionsContext()
+  const { onAddTransactionProps, extracts } = useTransactionsContext()
+    const recentTransactions = extracts.slice(0, 3)
 
   return (
     <div className='flex flex-col gap-4'>
@@ -14,7 +15,7 @@ export default function DashboardPage() {
         <AddTransaction {...onAddTransactionProps} />
       </div>
       <Chart />
-      <Extract />
+      <ShortExtract transactions={recentTransactions} />
     </div>
   );
 }

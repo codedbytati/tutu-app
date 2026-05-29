@@ -17,8 +17,8 @@ const menuItems = [
     Icon: HomeIcon
   },
   {
-    href: '/extratos',
-    label: 'Despesa',
+    href: '/extract',
+    label: 'Extrato',
     Icon: ArrowLeftRightIcon
   },
   {

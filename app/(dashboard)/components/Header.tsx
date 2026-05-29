@@ -45,7 +45,7 @@ export const Header = ({ name, className }: HeaderProps) => {
       <div className='flex items-center gap-3'>
         <Avatar size='xl' photoToken='https://avatars.githubusercontent.com/u/56259137' title={name} />
         <div className='flex flex-col'>
-          <Text appearance='body1' className='text-gray-300'>Boas vindas de volta!</Text>
+          <Text appearance='body1' className='text-gray-700'>Boas vindas de volta!</Text>
           <Text appearance='h1'>{name}</Text>
         </div>
       </div>
