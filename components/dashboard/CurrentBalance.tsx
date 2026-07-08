@@ -14,7 +14,7 @@ export const CurrentBalance = ({ balance, className }: CurrentBalanceProps) => {
   const [isHidden, setIsHidden] = useState(false)
 
   return (
-    <div className={`${className} bg-white rounded-4xl p-4`}>
+    <div className={`${className} rounded-[2rem] border border-white/70 bg-white/90 p-4 shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur-sm`}>
       <Text appearance='h2'>Saldo atual</Text>
       <div className='flex items-center gap-3 mt-2'>
         <Text appearance='h3' className={`text-xl transition-all duration-75 ${isHidden ? 'select-none blur-sm' : ''}`}>

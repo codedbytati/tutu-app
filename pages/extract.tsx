@@ -1,6 +1,4 @@
-import { DeleteTransaction } from '@/features/transactions/components/DeleteTransaction'
-import { EditTransaction } from '@/features/transactions/components/EditTransaction'
-import { useTransactionsContext } from '@/features/transactions/context/TransactionsContext'
+import { useRouter } from 'next/router'
 
 export const getServerSideProps = async () => {
   return {
@@ -9,20 +7,16 @@ export const getServerSideProps = async () => {
 }
 
 export default function ExtractPage() {
-  const {
-    onEditTransactionProps,
-    onDeleteTransactionProps,
-  } = useTransactionsContext()
+  const router = useRouter()
+  const queryString = router.asPath.startsWith('/extract') ? router.asPath.slice('/extract'.length) : ''
 
   return (
     <div className='flex flex-col gap-4'>
       <iframe
         title='Extract microfrontend'
-        src='http://localhost:5001'
+        src={`http://localhost:5001${queryString}`}
         className='h-225 w-full border-0'
       />
-      <EditTransaction {...onEditTransactionProps} />
-      <DeleteTransaction {...onDeleteTransactionProps} />
     </div>
   )
 }

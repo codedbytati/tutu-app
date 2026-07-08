@@ -1,179 +1,126 @@
 "use client";
 
-import { useState } from 'react'
-import { data } from "@/utils/data";
-import { ExtractItem } from '@/utils/types';
+import { useEffect, useState } from 'react'
 
-import { parseMoneyToNumber, formatMoneyForStorage } from "@/utils/money";
-
-const toSignedAmount = (type: ExtractItem["type"], amount: string) => {
-  const parsedAmount = parseMoneyToNumber(amount);
-
-  return type === "INCOME" ? parsedAmount : -parsedAmount;
-};
+import { createTransactionOnApi, deleteTransactionOnApi, loadTransactionsFromApi, updateTransactionOnApi } from '@/features/transactions/api'
+import type { ExtractItem } from '@/utils/types'
 
 const toInputDate = (date: string) => {
-  const [day, month, year] = date.split("/");
+  const [day, month, year] = date.split('/')
 
   if (!day || !month || !year) {
-    return date;
+    return date
   }
 
-  return `${year}-${month}-${day}`;
-};
+  return `${year}-${month}-${day}`
+}
 
 export const useTransactions = () => {
-  const [mode, setMode] = useState<"none" | "add" | "edit" | "delete">("none");
-  const [extracts, setExtracts] = useState(data.extract);
-  const [balance, setBalance] = useState(data.totalBalance);
-  const [selectedTransactionId, setSelectedTransactionId] = useState<number | null>(null);
+  const [mode, setMode] = useState<'none' | 'add' | 'edit' | 'delete'>('none')
+  const [extracts, setExtracts] = useState<ExtractItem[]>([])
+  const [balance, setBalance] = useState('0.00')
+  const [selectedTransactionId, setSelectedTransactionId] = useState<string | number | null>(null)
 
-  const handleDeleteTransaction = (id: number) => {
-    const deletedItem = extracts.find((item) => item.id === id);
+  const syncTransactions = async () => {
+    const { transactions, balance: currentBalance } = await loadTransactionsFromApi()
+    setExtracts(transactions)
+    setBalance(currentBalance.toFixed(2))
+  }
 
-    if (!deletedItem) {
-      return;
-    }
+  useEffect(() => {
+    void syncTransactions()
+  }, [])
 
-    const parsed = parseMoneyToNumber(deletedItem.amount);
+  const handleDeleteTransaction = async (id: string | number) => {
+    await deleteTransactionOnApi(id)
+    await syncTransactions()
 
-    setExtracts((current) => current.filter((item) => item.id !== id));
-    setBalance((current) => {
-      const currentAmount = parseMoneyToNumber(current);
-      const updatedBalance =
-        deletedItem.type === "INCOME"
-          ? currentAmount - parsed
-          : currentAmount + parsed;
-
-      return formatMoneyForStorage(updatedBalance);
-    });
-  };
-
-  const handleAddTransaction = (transaction: ExtractItem) => {
-    const amount = parseMoneyToNumber(transaction.amount);
-
-    setExtracts((current) => {
-      const nextId =
-        current.length > 0
-          ? Math.max(...current.map((item) => item.id)) + 1
-          : 1;
-
-      return [
-        { ...transaction, id: nextId, amount: amount.toFixed(2) },
-        ...current,
-      ];
-    });
-
-    setBalance((current) => {
-      const currentAmount = parseMoneyToNumber(current);
-      const updatedBalance =
-        transaction.type === "INCOME"
-          ? currentAmount + amount
-          : currentAmount - amount;
-
-      return formatMoneyForStorage(updatedBalance);
-    });
+    return undefined
   };
 
   const formatDate = (rawDate: string) => {
-    const [year, month, day] = rawDate.split("-");
+    const [year, month, day] = rawDate.split('-')
 
     if (!year || !month || !day) {
-      return rawDate;
+      return rawDate
     }
 
-    return `${day}/${month}/${year}`;
-  };
+    return `${day}/${month}/${year}`
+  }
 
-  const handleEditTransaction = (transaction: ExtractItem) => {
+  const handleAddTransaction = async (transaction: ExtractItem) => {
     const normalizedTransaction = {
       ...transaction,
       description: transaction.description.trim(),
       amount: transaction.amount.trim(),
-      date: formatDate(transaction.date),
-    };
-
-    const previousTransaction = extracts.find((item) => item.id === normalizedTransaction.id);
-
-    if (!previousTransaction) {
-      return;
+      date: transaction.date,
     }
 
-    const nextSignedAmount = toSignedAmount(normalizedTransaction.type, normalizedTransaction.amount);
-    const previousSignedAmount = toSignedAmount(previousTransaction.type, previousTransaction.amount);
+    await createTransactionOnApi(normalizedTransaction)
+    await syncTransactions()
+  }
 
-    setExtracts((current) => {
-      return current.map((item) => {
-        if (item.id !== normalizedTransaction.id) {
-          return item;
-        }
+  const handleEditTransaction = async (transaction: ExtractItem) => {
+    const normalizedTransaction = {
+      ...transaction,
+      description: transaction.description.trim(),
+      amount: transaction.amount.trim(),
+      date: transaction.date,
+    }
 
-        return {
-          ...item,
-          ...normalizedTransaction,
-          amount: formatMoneyForStorage(normalizedTransaction.amount),
-        };
-      });
-    });
+    if (selectedTransactionId === null) {
+      return
+    }
 
-    setBalance((currentBalance) => {
-      const currentAmount = parseMoneyToNumber(currentBalance);
-      const updatedBalance = currentAmount - previousSignedAmount + nextSignedAmount;
-
-      return formatMoneyForStorage(updatedBalance);
-    });
-  };
+    await updateTransactionOnApi(selectedTransactionId, normalizedTransaction)
+    await syncTransactions()
+  }
 
   const [transaction, setTransaction] = useState<ExtractItem>({
     id: 0,
-    description: "",
-    type: "EXPENSE",
-    amount: "",
-    date: "",
+    description: '',
+    type: 'EXPENSE',
+    amount: '',
+    date: '',
     category: 'Outros',
-  });
+  })
 
   const resetForm = () => {
     setTransaction({
       id: 0,
-      description: "",
-      type: "EXPENSE",
-      amount: "",
-      date: "",
+      description: '',
+      type: 'EXPENSE',
+      amount: '',
+      date: '',
       category: 'Outros',
-    });
-  };
+    })
+  }
 
   const handleClose = () => {
-    setMode("none");
-    setSelectedTransactionId(null);
-    resetForm();
-  };
+    setMode('none')
+    setSelectedTransactionId(null)
+    resetForm()
+  }
 
-  const handleSave = () => {
-    if (
-      !transaction.date ||
-      !transaction.type ||
-      !transaction.description.trim() ||
-      !transaction.amount.trim()
-    ) {
-      return;
+  const handleSave = async () => {
+    if (!transaction.date || !transaction.type || !transaction.description.trim() || !transaction.amount.trim()) {
+      return
     }
 
-    handleAddTransaction({
+    await handleAddTransaction({
       id: 0,
-      date: formatDate(transaction.date),
+      date: transaction.date,
       type: transaction.type,
       description: transaction.description.trim(),
       amount: transaction.amount.trim(),
       category: transaction.category,
-    });
+    })
 
-    handleClose();
-  };
+    handleClose()
+  }
 
   const handleOpenEdit = (item: ExtractItem) => {
-    setSelectedTransactionId(item.id);
+    setSelectedTransactionId(item.id)
     setTransaction({
       id: item.id,
       category: item.category,
@@ -181,42 +128,36 @@ export const useTransactions = () => {
       type: item.type,
       amount: item.amount,
       date: toInputDate(item.date),
-    });
-    setMode("edit");
-  };
+    })
+    setMode('edit')
+  }
 
-  const handleOpenDelete = (id: number) => {
-    setSelectedTransactionId(id);
-    setMode("delete");
-  };
+  const handleOpenDelete = (id: string | number) => {
+    setSelectedTransactionId(id)
+    setMode('delete')
+  }
 
-  const handleSaveEdit = () => {
-    if (
-      selectedTransactionId === null ||
-      !transaction.date ||
-      !transaction.type ||
-      !transaction.description.trim() ||
-      !transaction.amount.trim()
-    ) {
-      return;
+  const handleSaveEdit = async () => {
+    if (selectedTransactionId === null || !transaction.date || !transaction.type || !transaction.description.trim() || !transaction.amount.trim()) {
+      return
     }
 
-    handleEditTransaction({
+    await handleEditTransaction({
       ...transaction,
       id: selectedTransactionId,
-    });
+    })
 
-    handleClose();
-  };
+    handleClose()
+  }
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (selectedTransactionId === null) {
-      return;
+      return
     }
 
-    handleDeleteTransaction(selectedTransactionId);
-    handleClose();
-  };
+    await handleDeleteTransaction(selectedTransactionId)
+    handleClose()
+  }
 
   return {
     onOpenEdit: handleOpenEdit,
@@ -248,5 +189,5 @@ export const useTransactions = () => {
     onEdit: handleEditTransaction,
     onAdd: handleSave,
     onClose: handleClose,
-  };
-};
+  }
+}

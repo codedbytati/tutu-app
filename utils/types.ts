@@ -11,7 +11,7 @@ export type TransactionCategory =
   | "Outros";
 
 export type ExtractItem = {
-  id: number;
+  id: string | number;
   category: TransactionCategory;
   type: TransactionType;
   description: string;

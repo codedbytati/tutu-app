@@ -1,11 +1,39 @@
+@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
   color-scheme: light;
   font-family: 'Poppins', sans-serif;
   --color-primary: #efd900;
-  background: #f6f6fa;
+  --color-secondary: #fff8c5;
+  --color-success: #4cd964;
+  --color-success-light: #cff3af;
+  --color-warning: #ffe100;
+  --color-danger: #ff4444;
+  --color-danger-light: #ffd9d9;
+  --color-info: #00adff;
+  --color-info-light: #c7e9f9;
   color: #0f172a;
+}
+
+@theme {
+  --color-background: #f8fafc;
+  --color-foreground: #0f172a;
+  --color-primary: #efd900;
+  --color-secondary: #fff8c5;
+  --color-success: #4cd964;
+  --color-success-light: #cff3af;
+  --color-warning: #ffe100;
+  --color-danger: #ff4444;
+  --color-danger-light: #ffd9d9;
+  --color-info: #00adff;
+  --color-info-light: #c7e9f9;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-gray-900: #4b4b4b;
+  --color-gray-700: #6d6d6d;
+  --color-gray-300: #8a8a8f;
+  --color-gray-100: #e4e4e4;
 }
 
 * {
@@ -21,8 +49,22 @@ body,
 body {
   margin: 0;
   min-height: 100vh;
-  background: #f6f6fa;
+  background:
+    radial-gradient(circle at top, rgba(239, 217, 0, 0.16), transparent 28%),
+    linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
   color: #0f172a;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.02) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(circle at center, black 34%, transparent 100%);
+  pointer-events: none;
 }
 
 button,
@@ -30,13 +72,7 @@ input {
   font: inherit;
 }
 
-.appShell {
-  min-height: 100vh;
-  padding: 16px;
-}
-
-.appFrame {
-  width: 100%;
-  max-width: 1120px;
-  margin: 0 auto;
+::selection {
+  background: rgba(239, 217, 0, 0.36);
+  color: #0f172a;
 }

@@ -37,7 +37,7 @@ export const Menu = ({ className }: MenuProps) => {
   const { pathname } = useRouter()
 
   return (
-    <nav className={`${className} flex flex-col gap-3 p-4 bg-white rounded-4xl`} aria-label='Navegação principal'>
+    <nav className={`${className} flex flex-col gap-3 rounded-[2rem] border border-white/70 bg-white/90 p-4 shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur-sm`} aria-label='Navegação principal'>
       {menuItems.map(({ href, label, icon }) => {
         const isActive = pathname === href
         const Icon = icon
@@ -47,9 +47,7 @@ export const Menu = ({ className }: MenuProps) => {
             key={href}
             href={href}
             aria-current={isActive ? 'page' : undefined}
-            className={`flex items-center gap-2 rounded-lg p-3 transition-colors cursor-pointer ${
-              isActive ? 'bg-primary' : 'hover:bg-secondary'
-            }`}
+            className={`flex cursor-pointer items-center gap-2 rounded-2xl p-3 transition-colors ${isActive ? 'bg-primary' : 'hover:bg-secondary'}`}
           >
             <Icon aria-hidden='true' className='size-5 shrink-0' strokeWidth={2.1} />
             <Text appearance='body1' className='font-semibold'>{label}</Text>

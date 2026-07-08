@@ -1,18 +1,15 @@
-import { Dropdown, DropdownItem, Text } from '@/components/ui'
+import { Text } from '@/components/ui'
 import { ExtractItem } from '@/utils/types'
 import { getCategoryIcon } from '@/utils/getIcon'
 import { formatMoneyForDisplay } from '@/utils/money'
-import { MoreHorizontal } from 'lucide-react'
 
 type CardProps = {
   item: ExtractItem,
-  onOpenEdit: (item: ExtractItem) => void
-  onOpenDelete: (id: number) => void
 }
 
-export const Card = ({ item, onOpenEdit, onOpenDelete }: CardProps) => {
+export const Card = ({ item }: CardProps) => {
   const valueClassName = [
-    'm-0 shrink-0 text-end font-medium',
+    'm-0 shrink-0 text-end font-semibold',
     item.type === 'EXPENSE' ? 'text-red-600' : 'text-lime-700',
   ].join(' ')
 
@@ -27,16 +24,6 @@ export const Card = ({ item, onOpenEdit, onOpenDelete }: CardProps) => {
       <Text appearance='body1' className={valueClassName}>
         {formatMoneyForDisplay(item.amount)}
       </Text>
-      <div className='flex justify-end'>
-        <Dropdown ariaLabel='Mais ações da transação' label={<MoreHorizontal aria-hidden='true' className='size-5' strokeWidth={2.1} />}>
-          <DropdownItem onClick={() => onOpenEdit(item)}>
-            <Text appearance='body1'>Editar transação</Text>
-          </DropdownItem>
-          <DropdownItem onClick={() => onOpenDelete(item.id)}>
-            <Text appearance='body1'>Excluir transação</Text>
-          </DropdownItem>
-        </Dropdown>
-      </div>
     </div>
   )
 }

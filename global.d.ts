@@ -13,7 +13,7 @@ declare module 'extract/MeuComponente' {
 
 declare module 'extract/ExtractList' {
 	export type ExtractItem = {
-		id: number;
+			id: string | number;
 		category:
 			| 'Salário'
 			| 'Investimento'

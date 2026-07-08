@@ -17,7 +17,7 @@ function Shell({ children }: Readonly<{ children: React.ReactNode }>) {
   const { balance } = useTransactionsContext()
 
   return (
-    <div className='min-h-screen overflow-y-auto bg-[#f6f7fb] p-4 lg:p-6'>
+    <div className='min-h-screen overflow-y-auto bg-[radial-gradient(circle_at_top,rgba(239,217,0,0.16),transparent_28%),linear-gradient(180deg,#f8fafc_0%,#eef2ff_100%)] p-4 text-slate-900 lg:p-6'>
       <div className='grid gap-4 lg:grid-cols-[220px_minmax(0,1fr)]'>
         <Menu className='hidden lg:flex lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)]' />
         <div className='grid gap-4'>
@@ -34,7 +34,7 @@ function Shell({ children }: Readonly<{ children: React.ReactNode }>) {
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <div className={poppins.className}>
+    <div className={`${poppins.className} min-h-screen`}>
       <TransactionsProvider>
         <Shell>
           <Component {...pageProps} />
