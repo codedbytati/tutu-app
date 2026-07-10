@@ -14,7 +14,7 @@ export const Header = ({ name, className }: HeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   return (
-    <header className={`flex rounded-[2rem] border border-white/70 bg-white/90 px-6 py-4 shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur-sm ${className}`}>
+    <header className={`flex rounded-4xl border border-white/70 bg-white/90 px-6 py-4 shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur-sm ${className}`}>
       <div className='h-full flex items-center pr-4 sm:hidden'>
         <button
           type='button'

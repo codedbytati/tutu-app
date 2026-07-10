@@ -1,8 +1,14 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import federation from '@originjs/vite-plugin-federation';
+import { fileURLToPath, URL } from 'node:url'
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import federation from '@originjs/vite-plugin-federation'
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@shared': fileURLToPath(new URL('../../shared/src', import.meta.url)),
+    },
+  },
   plugins: [
     react(),
     federation({
@@ -27,4 +33,4 @@ export default defineConfig({
   build: {
     target: 'esnext',
   },
-});
+})

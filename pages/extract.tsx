@@ -14,7 +14,7 @@ export default function ExtractPage() {
     <div className='flex flex-col gap-4'>
       <iframe
         title='Extract microfrontend'
-        src={`http://localhost:5001${queryString}`}
+        src={`http://localhost:5002${queryString}`}
         className='h-225 w-full border-0'
       />
     </div>

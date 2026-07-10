@@ -37,7 +37,7 @@ export const Menu = ({ className }: MenuProps) => {
   const { pathname } = useRouter()
 
   return (
-    <nav className={`${className} flex flex-col gap-3 rounded-[2rem] border border-white/70 bg-white/90 p-4 shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur-sm`} aria-label='Navegação principal'>
+    <nav className={`${className} flex flex-col gap-3 rounded-4xl border border-white/70 bg-white/90 p-4 shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur-sm`} aria-label='Navegação principal'>
       {menuItems.map(({ href, label, icon }) => {
         const isActive = pathname === href
         const Icon = icon

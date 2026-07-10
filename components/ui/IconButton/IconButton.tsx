@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { getIcon, IconType } from '@/utils/getIcon'
+import { getIcon, IconType } from '../../../utils/getIcon'
 
 type IconButtonProps = {
   appearance?: 'light' | 'dark' | 'danger',

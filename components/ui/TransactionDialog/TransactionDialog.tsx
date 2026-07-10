@@ -1,0 +1,1 @@
+export { TransactionDialog } from '../../../microfrontends/shared/src/ui'

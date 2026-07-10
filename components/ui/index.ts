@@ -6,4 +6,5 @@ export { TextField } from "./Form/TextField/TextField";
 export { IconButton } from "./IconButton/IconButton";
 export { Pagination } from "./Pagination/Pagination";
 export { Modal } from "./Modal/Modal";
+export { TransactionDialog } from "./TransactionDialog/TransactionDialog";
 export { Text } from "./Text/Text";

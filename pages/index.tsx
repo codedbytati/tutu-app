@@ -10,14 +10,11 @@ export const getServerSideProps = async () => {
 }
 
 export default function DashboardPage() {
-  const { onAddTransactionProps, extracts } = useTransactionsContext()
+  const { extracts } = useTransactionsContext()
   const recentTransactions = extracts.slice(0, 3)
 
   return (
     <div className='flex flex-col gap-4'>
-      <div className='flex justify-start'>
-        <AddTransaction {...onAddTransactionProps} />
-      </div>
       <Chart />
       <ShortExtract transactions={recentTransactions} />
     </div>

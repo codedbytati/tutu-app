@@ -140,7 +140,7 @@ export const Chart = () => {
   ]
 
   return (
-    <div className='flex flex-col gap-3 rounded-[2rem] border border-white/70 bg-white/90 p-6 shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur-sm'>
+    <div className='flex flex-col gap-3 rounded-4xl border border-white/70 bg-white/90 p-6 shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur-sm'>
       <div className='mb-4 flex flex-wrap items-start justify-between gap-3'>
         <div>
           <Text appearance='h2'>Despesas do ano</Text>

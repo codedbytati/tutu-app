@@ -10,7 +10,6 @@ import {
   Gift,
   House,
   ChartColumn,
-  Landmark,
   MoreHorizontal,
   PartyPopper,
   PencilLine,

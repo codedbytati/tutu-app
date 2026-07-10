@@ -17,13 +17,13 @@ export const ExtractHeader = ({
 }: ExtractHeaderProps) => {
   return (
     <div className='mb-4 flex flex-col gap-4 md:flex-row md:items-start md:justify-between'>
-      <div className='flex max-w-[540px] flex-col gap-2'>
+      <div className='flex max-w-135 flex-col gap-2'>
         <h2 className='m-0 text-[clamp(1.4rem,2vw,1.8rem)] font-bold leading-tight text-slate-900'>Extrato</h2>
         <p className='m-0 leading-7 text-slate-600'>Consulte os lançamentos, busque por conteúdo e abra o editor para criar ou ajustar a transação.</p>
       </div>
 
       <div className='flex flex-wrap items-center justify-end gap-3'>
-        <button className='rounded-full border-0 bg-[linear-gradient(135deg,#111827_0%,#334155_100%)] px-5 py-3 font-bold text-white shadow-[0_14px_28px_rgba(15,23,42,0.18)]' onClick={onOpenCreate} type='button'>
+        <button className='rounded-full border-0 cursor-pointer bg-[linear-gradient(135deg,#111827_0%,#334155_100%)] px-5 py-3 font-bold text-white shadow-[0_14px_28px_rgba(15,23,42,0.18)]' onClick={onOpenCreate} type='button'>
           Nova transação
         </button>
 
